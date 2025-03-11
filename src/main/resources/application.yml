@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: products-api-test
+  messages:
+    basename: messages
+    encoding: UTF-8
+springdoc:
+  api-docs:
+    enabled: true
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+logging:
+  level:
+    root: INFO
+    com.between.products: INFO
+
+product:
+  api:
+    baseUrl: ${PRODUCT_API_BASE_URL}
