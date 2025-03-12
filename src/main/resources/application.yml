@@ -23,7 +23,8 @@ logging:
   level:
     root: INFO
     com.between.products: INFO
-
+server:
+  port: 5000
 product:
   api:
-    baseUrl: ${PRODUCT_API_BASE_URL}
+    baseUrl: ${PRODUCT_API_BASE_URL:http://simulado:80}
