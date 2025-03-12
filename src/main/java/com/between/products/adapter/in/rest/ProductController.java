@@ -5,6 +5,8 @@ import com.between.products.application.mapper.ProductMapper;
 import com.between.products.port.in.rest.ProductInPort;
 import com.between.products.port.out.rest.ProductOutPort;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
@@ -23,8 +25,9 @@ public class ProductController implements ProductInPort {
     }
 
     @Override
-    public Flux<ProductDTO> getSimilarProducts(String productId) {
-        Flux<String> productSimilarIds = productOutPort.getProductSimilarIds(productId);
+    @GetMapping("/{productId}/similar")
+    public Flux<ProductDTO> getSimilarProducts(@PathVariable String productId) {
+        Flux<Integer> productSimilarIds = productOutPort.getProductSimilarIds(Integer.valueOf(productId));
         return productSimilarIds.flatMap(productOutPort::getProductDetail).map(productMapper::toProductDTO);
     }
 }

@@ -5,7 +5,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public interface ProductOutPort {
-    Flux<String> getProductSimilarIds(String productId);
+    Flux<Integer> getProductSimilarIds(Integer productId);
 
-    Mono<Product> getProductDetail(String productId);
+    Mono<Product> getProductDetail(Integer productId);
 }
