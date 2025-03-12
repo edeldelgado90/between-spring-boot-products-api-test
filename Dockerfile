@@ -9,10 +9,13 @@ COPY pom.xml ./
 COPY src ./src
 
 # Build the application
-RUN mvn clean install -U
+RUN mvn clean package -U -DskipTests
 
-# Copy the generated jar to the container
-COPY target/*.jar app.jar
+FROM amazoncorretto:21-alpine
+
+WORKDIR /app
+
+COPY --from=build /app/target/*.jar app.jar
 
 # Expose the ports for HTTP
 EXPOSE 8080 9090
