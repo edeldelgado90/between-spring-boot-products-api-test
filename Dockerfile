@@ -15,7 +15,7 @@ RUN mvn clean install -U
 COPY target/*.jar app.jar
 
 # Expose the ports for HTTP
-EXPOSE 8080
+EXPOSE 8080 9090
 
 # Command to run the application
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]
