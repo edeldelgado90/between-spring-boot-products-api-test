@@ -44,6 +44,7 @@
         <protoc-gen-grpc-java.version>1.69.0</protoc-gen-grpc-java.version>
         <protobuf-maven-plugin.version>0.6.1</protobuf-maven-plugin.version>
         <protoc.version>3.21.9</protoc.version>
+        <resilience4j.version>2.1.0</resilience4j.version>
     </properties>
 
     <!-- Spring Boot -->
@@ -143,6 +144,17 @@
         <dependency>
             <groupId>com.github.ben-manes.caffeine</groupId>
             <artifactId>caffeine</artifactId>
+        </dependency>
+
+        <!-- Resilience4j -->
+        <dependency>
+            <groupId>io.github.resilience4j</groupId>
+            <artifactId>resilience4j-spring-boot3</artifactId>
+            <version>${resilience4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
 
         <!-- Micrometer -->
