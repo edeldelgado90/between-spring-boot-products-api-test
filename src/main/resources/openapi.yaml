@@ -1,0 +1,47 @@
+openapi: 3.0.1
+info:
+  title: Products API
+  description: API for managing products
+  version: 1.0.0
+servers:
+  - url: http://localhost:5000
+    description: Local server
+paths:
+  /product/{productId}/similar:
+    get:
+      summary: Get similar products
+      description: Returns a list of products similar to the specified product.
+      operationId: getSimilarProducts
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductDTO'
+        '404':
+          description: Product not found
+components:
+  schemas:
+    ProductDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+        price:
+          type: number
+          format: double
+        availability:
+          type: boolean
