@@ -10,6 +10,8 @@ springdoc:
     path: /api-docs
   swagger-ui:
     path: /swagger-ui.html
+  openapi:
+    file: classpath:openapi.yaml
 management:
   endpoints:
     web:
@@ -24,7 +26,7 @@ logging:
     root: INFO
     com.between.products: INFO
 server:
-  port: 5000
+  port: 5001
 product:
   api:
     baseUrl: ${PRODUCT_API_BASE_URL:http://simulado:80}
