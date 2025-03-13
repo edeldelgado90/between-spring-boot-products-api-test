@@ -47,10 +47,12 @@ Ports define the interfaces for communication between the core domain and adapte
     - `ProductOutPort` (inside `port.out.rest`): Defines interactions with external REST services.
 
 ### Diagram
+
 Below is a diagram illustrating the Hexagonal Architecture used in this project:
 
 ```mermaid
-graph TD;
+graph TD
+;
 
 %% Definición de subgrupos
     subgraph Domain
@@ -90,12 +92,10 @@ graph TD;
     Mapper -->|Used by| Application
     Application -->|Uses| ProductInPort
     Application -->|Uses| ProductOutPort
-
 %% Conexiones entre puertos y adaptadores
     ProductInPort -->|Implemented by| ProductController
     ProductInPort -->|Implemented by| GRPCProductService
     ProductOutPort -->|Implemented by| ProductService
-
 %% Conexiones entre adaptadores y el exterior
     GRPCProductService -->|gRPC| ProductInPort
     ProductController -->|REST| ProductInPort
@@ -131,18 +131,16 @@ To run the application using Docker, follow these steps:
    cd between-spring-boot-products-api-test
    ```
 2. Build and run the Docker container:
-
-```bash
-docker-compose up --build
-```
-
-3. The application will be available at http://localhost:8080.
+  ```bash
+  docker-compose up --build
+  ```
+3. The application will be available at http://localhost:5000.
 
 ## Accessing the OpenAPI Documentation
 
 Once the application is running, you can access the OpenAPI documentation at:
 
-- URL: http://localhost:8080/swagger-ui.html
+- URL: http://localhost:5000/swagger-ui.html
   This page allows you to interact with the REST API, view available endpoints, and try them out directly from the
   browser.
 
@@ -155,7 +153,7 @@ Here are the available REST API endpoints with example curl commands to access t
 Endpoint: GET /product/{productId}/detail
 
 ```bash
-curl -X GET "http://localhost:8080/product/1/detail" -H "accept: application/json"
+curl -X GET "http://localhost:5000/product/1/detail" -H "accept: application/json"
 ````
 
 ## gRPC Usage
