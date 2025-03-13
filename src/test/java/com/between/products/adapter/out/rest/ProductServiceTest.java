@@ -38,12 +38,18 @@ class ProductServiceTest {
         responseSpec = mock(ResponseSpec.class);
 
         when(webClientBuilder.baseUrl(anyString())).thenReturn(webClientBuilder);
+        when(webClientBuilder.clientConnector(any())).thenReturn(webClientBuilder);
         when(webClientBuilder.build()).thenReturn(webClient);
         when(webClient.get()).thenReturn(requestHeadersUriSpec);
         when(requestHeadersUriSpec.uri(anyString(), any(Object.class))).thenReturn(requestHeadersSpec);
         when(requestHeadersSpec.retrieve()).thenReturn(responseSpec);
 
-        productService = new ProductService(webClientBuilder, "http://mock-api.com");
+        productService = new ProductService(webClientBuilder,
+                "http://mock-api.com",
+                2000,
+                2000,
+                2000,
+                2000);
     }
 
     @Test
