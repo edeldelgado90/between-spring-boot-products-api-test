@@ -18,8 +18,11 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.netty.http.client.HttpClient;
@@ -29,17 +32,17 @@ import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 @Service
-public class ProductService implements ProductOutPort {
+public class ProductOutService implements ProductOutPort {
 
-    private static final Logger logger = LoggerFactory.getLogger(ProductService.class);
+    private static final Logger logger = LoggerFactory.getLogger(ProductOutService.class);
     private final WebClient webClient;
 
-    public ProductService(WebClient.Builder webClientBuilder,
-                          @Value("${product.api.baseUrl}") String apiBaseUrl,
-                          @Value("${product.api.timeouts.connect}") int connectTimeout,
-                          @Value("${product.api.timeouts.read}") int readTimeout,
-                          @Value("${product.api.timeouts.write}") int writeTimeout,
-                          @Value("${product.api.timeouts.response}") int responseTimeout
+    public ProductOutService(WebClient.Builder webClientBuilder,
+                             @Value("${product.api.baseUrl}") String apiBaseUrl,
+                             @Value("${product.api.timeouts.connect}") int connectTimeout,
+                             @Value("${product.api.timeouts.read}") int readTimeout,
+                             @Value("${product.api.timeouts.write}") int writeTimeout,
+                             @Value("${product.api.timeouts.response}") int responseTimeout
     ) {
         TcpClient tcpClient = TcpClient.create()
                 .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, connectTimeout)
@@ -74,7 +77,10 @@ public class ProductService implements ProductOutPort {
 
     @Override
     @Cacheable(value = "productDetail", key = "#productId")
-    @Retry(name = "productServiceRetry", fallbackMethod = "getProductDetailFallback")
+    @Retryable(
+            retryFor = {WebClientResponseException.class},
+            backoff = @Backoff(delay = 2000, maxDelay = 5000, multiplier = 2)
+    )
     @CircuitBreaker(name = "productService", fallbackMethod = "getProductDetailFallback")
     public Mono<Product> getProductDetail(Integer productId) {
         return webClient.get()

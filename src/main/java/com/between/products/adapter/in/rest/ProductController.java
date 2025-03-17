@@ -1,9 +1,8 @@
 package com.between.products.adapter.in.rest;
 
+import com.between.products.adapter.mapper.ProductMapper;
 import com.between.products.application.dto.ProductDTO;
-import com.between.products.application.mapper.ProductMapper;
-import com.between.products.port.in.rest.ProductInPort;
-import com.between.products.port.out.rest.ProductOutPort;
+import com.between.products.port.in.ProductInPort;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,20 +13,19 @@ import reactor.core.publisher.Flux;
 @RestController
 @RequestMapping("/product")
 @Tag(name = "products", description = "Operations related to products")
-public class ProductController implements ProductInPort {
+public class ProductController {
 
-    private final ProductOutPort productOutPort;
+    private final ProductInPort productInPort;
     private final ProductMapper productMapper;
 
-    public ProductController(ProductOutPort productOutPort, ProductMapper productMapper) {
-        this.productOutPort = productOutPort;
+    public ProductController(ProductInPort productInPort, ProductMapper productMapper) {
+        this.productInPort = productInPort;
         this.productMapper = productMapper;
     }
 
-    @Override
+
     @GetMapping("/{productId}/similar")
     public Flux<ProductDTO> getSimilarProducts(@PathVariable String productId) {
-        Flux<Integer> productSimilarIds = productOutPort.getProductSimilarIds(Integer.valueOf(productId));
-        return productSimilarIds.flatMap(productOutPort::getProductDetail).map(productMapper::toProductDTO);
+        return this.productInPort.getSimilarProducts(productId).map(productMapper::toProductDTO);
     }
 }
