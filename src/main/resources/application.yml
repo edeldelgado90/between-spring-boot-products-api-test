@@ -29,12 +29,12 @@ server:
   port: 5000
 product:
   api:
-    baseUrl: ${PRODUCT_API_BASE_URL:http://simulado:80}
+    baseUrl: http://localhost:3001
     timeouts:
-      connect: 2000
-      read: 2000
-      write: 2000
-      response: 2000
+      connect: 10000
+      read: 10000
+      write: 10000
+      response: 10000
 resilience4j:
   circuitbreaker:
     instances:
