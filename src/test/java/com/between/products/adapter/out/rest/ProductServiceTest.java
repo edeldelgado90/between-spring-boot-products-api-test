@@ -26,7 +26,7 @@ import static org.mockito.Mockito.when;
 
 class ProductServiceTest {
 
-    private ProductService productService;
+    private ProductOutService productService;
     private ResponseSpec responseSpec;
 
     @BeforeEach
@@ -44,7 +44,7 @@ class ProductServiceTest {
         when(requestHeadersUriSpec.uri(anyString(), any(Object.class))).thenReturn(requestHeadersSpec);
         when(requestHeadersSpec.retrieve()).thenReturn(responseSpec);
 
-        productService = new ProductService(webClientBuilder,
+        productService = new ProductOutService(webClientBuilder,
                 "http://mock-api.com",
                 2000,
                 2000,
