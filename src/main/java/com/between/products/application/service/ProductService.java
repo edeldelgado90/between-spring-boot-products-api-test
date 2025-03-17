@@ -5,6 +5,7 @@ import com.between.products.port.in.ProductInPort;
 import com.between.products.port.out.rest.ProductOutPort;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Service
 public class ProductService implements ProductInPort {
@@ -17,6 +18,7 @@ public class ProductService implements ProductInPort {
     @Override
     public Flux<Product> getSimilarProducts(String productId) {
         return productOutPort.getProductSimilarIds(Integer.valueOf(productId))
-                .flatMap(productOutPort::getProductDetail);
+                .flatMap(id -> productOutPort.getProductDetail(id)
+                        .onErrorResume(e -> Mono.empty()));
     }
 }
