@@ -128,14 +128,18 @@ To run the application locally, follow these steps:
    cd between-spring-boot-products-api-test
    ```
 2. Set Up Dependency Containers
+
    Follow the steps in
    the [backendDevTest repository](https://github.com/dalogax/backendDevTest?tab=readme-ov-file#testing-and-self-evaluation)
    to set up and run the required dependency containers.
+
 3. Configure Environment Variables
+
    Check the .env file and ensure the PRODUCT_API_BASE_URL variable is set correctly. For local development, set it to:
    ```dotenv
    PRODUCT_API_BASE_URL=http://localhost:3001
    ```
+
 4. Run the application:
 
 ```
@@ -154,27 +158,33 @@ To run the application using Docker, follow these steps:
    cd between-spring-boot-products-api-test
    ```
 2. Set Up Dependency Containers
+
    Follow the steps in
    the [backendDevTest repository](https://github.com/dalogax/backendDevTest?tab=readme-ov-file#testing-and-self-evaluation)
    to set up and run the required dependency containers.
+
 3. Configure Network for External Containers
+
    Ensure that the external containers (like `simulado`) are connected to the Docker network named
    `backenddevtest_default`.
    This network is required for the application to communicate with the dependency containers.
    If you are using a different network name, update the `docker-compose.yml` file in this project to match the correct
    network name.
+
 4. Configure Environment Variables
+
    Check the .env file and ensure the PRODUCT_API_BASE_URL variable is set correctly. For Docker development, set it to:
    ```dotenv
    PRODUCT_API_BASE_URL=http://simulado:80
    ```
+
 5. Build and run the Docker container:
 
   ```bash
   docker-compose up --build
   ```
 
-5. Once the container is running, the application will be available at: http://localhost:5000.
+Once the container is running, the application will be available at: http://localhost:5000.
 
 ## Accessing the OpenAPI Documentation
 
