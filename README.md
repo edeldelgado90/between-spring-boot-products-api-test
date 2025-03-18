@@ -20,7 +20,7 @@ Adapters are responsible for interacting with external systems and frameworks. I
     - `ProductController` (inside `adapter.in.rest`): Manages RESTful API requests.
     - `GRPCProductService` (inside `adapter.in.grpc`): Handles gRPC requests.
 - Outbound Adapters (sending output):
-    - `ProductService` (inside `adapter.out.rest`): Calls external REST services.
+    - `ProductOutService` (inside `adapter.out.rest`): Calls external REST services.
 
 ### Application Layer
 
@@ -28,7 +28,7 @@ This layer contains business logic and service orchestration:
 
 - `config`: Configuration files.
 - `dto`: Data Transfer Objects (DTOs) used for communication between layers.
-- `mapper`: Utility classes for mapping between domain and DTOs.
+- `service`: Contains service classes that implement the application's business logic.
 
 ### Domain Layer
 
@@ -64,6 +64,7 @@ graph TD
         Config
         DTO
         Mapper
+        Service
     end
 
     subgraph Ports
@@ -81,7 +82,7 @@ graph TD
             ProductController
         end
         subgraph OutboundAdapters
-            ProductService
+            ProductOutService
         end
     end
 
@@ -90,16 +91,16 @@ graph TD
     Error -->|Handles| Product
     DTO -->|Mapped by| Mapper
     Mapper -->|Used by| Application
-    Application -->|Uses| ProductInPort
-    Application -->|Uses| ProductOutPort
+    Service -->|Uses| ProductInPort
+    Service -->|Uses| ProductOutPort
 %% Conexiones entre puertos y adaptadores
     ProductInPort -->|Implemented by| ProductController
     ProductInPort -->|Implemented by| GRPCProductService
-    ProductOutPort -->|Implemented by| ProductService
+    ProductOutPort -->|Implemented by| ProductOutService
 %% Conexiones entre adaptadores y el exterior
     GRPCProductService -->|gRPC| ProductInPort
     ProductController -->|REST| ProductInPort
-    ProductService -->|REST| ProductOutPort
+    ProductOutService -->|REST| ProductOutPort
 
 
 ```
