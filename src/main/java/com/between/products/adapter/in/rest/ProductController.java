@@ -3,6 +3,7 @@ package com.between.products.adapter.in.rest;
 import com.between.products.adapter.mapper.ProductMapper;
 import com.between.products.application.dto.ProductDTO;
 import com.between.products.port.in.ProductInPort;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,7 +26,10 @@ public class ProductController {
 
 
     @GetMapping("/{productId}/similar")
+    @RateLimiter(name = "similarProductsLimiter")
     public Flux<ProductDTO> getSimilarProducts(@PathVariable String productId) {
-        return this.productInPort.getSimilarProducts(productId).map(productMapper::toProductDTO);
+        return this.productInPort.getSimilarProducts(productId)
+                .switchIfEmpty(Flux.empty())
+                .map(productMapper::toProductDTO);
     }
 }
