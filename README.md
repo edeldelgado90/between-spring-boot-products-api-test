@@ -129,14 +129,18 @@ To run the application locally, follow these steps:
    cd between-spring-boot-products-api-test
    ```
 2. Set Up Dependency Containers
+
    Follow the steps in
    the [backendDevTest repository](https://github.com/dalogax/backendDevTest?tab=readme-ov-file#testing-and-self-evaluation)
    to set up and run the required dependency containers.
+
 3. Configure Environment Variables
+
    Check the .env file and ensure the PRODUCT_API_BASE_URL variable is set correctly. For local development, set it to:
    ```dotenv
    PRODUCT_API_BASE_URL=http://localhost:3001
    ```
+
 4. Run the application:
 
 ```
