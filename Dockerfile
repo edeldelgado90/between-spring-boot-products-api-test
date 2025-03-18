@@ -16,6 +16,7 @@ FROM amazoncorretto:21-alpine
 WORKDIR /app
 
 COPY --from=build /app/target/*.jar app.jar
+COPY .env /app/.env
 
 # Expose the ports for HTTP
 EXPOSE 8080 9090
